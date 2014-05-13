@@ -5,42 +5,46 @@
 void setup()                    // run once, when the sketch starts
 {
   MeggyJrSimpleSetup();      // Required code, line 2 of 2.
+  Serial.begin(9600);
 }
 
 int xcoord = 3;      //x coordinate for Player dot
 int ycoord = 3;      //y coordinate for Player dot
-int direction = 0;
-int dir = 1;
- 
+int dir = 1;        // direction value = 1 when game starts
+int Axcoord = 7;     //x coordinate for Enemy A 
+int Aycoord = 10;    //y coodrinate for Enemy A 
+int counter = 0;
+
+//boolean enemyMovement = true;
 
 boolean willCollide(int dir) // Collision detection with walls
 { 
   if (dir == 270)
   {
-    if (ReadPx(xcoord,ycoord-1) == 0)
+    if (ReadPx(xcoord,ycoord-1) == 0)    //if there is a wall below the player and the walls try to move up, the walls won't move
       return false;
      else return true;
   }
   else if (dir == 90)
   {
-    if (ReadPx(xcoord,ycoord+1) == 0)
+    if (ReadPx(xcoord,ycoord+1) == 0)    //if there is a wall above the player and the walls try to move down, the wall won't move
       return false;
      else return true;
   }
   else if (dir == 0)
   {
-    if (ReadPx(xcoord+1,ycoord) == 0)
+    if (ReadPx(xcoord+1,ycoord) == 0)    //if there is a wall to the right of the player and the wall tries to mvoe left, the wall won't move
       return false;
      else return true;
   }
   else if (dir == 180)
   {
-    if (ReadPx(xcoord-1, ycoord) == 0)
+    if (ReadPx(xcoord-1, ycoord) == 0)   //if there is a wall to the left of the player and the wall tries to move right, the wall won't move
       return false;
      else return true;
   }
 } 
- 
+
 struct Poin      //defined struct (frame array)
 {
  int x;
@@ -215,10 +219,11 @@ Point walls[115] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s
   
 void loop()                     // run over and over again
 {
- drawFrame();
+
  drawPlayer();
  drawWall();
- wallMovement();
+ movement();
+ drawEnemyA();
  DisplaySlate();
  delay(125);
  ClearSlate();
@@ -229,30 +234,26 @@ void loop()                     // run over and over again
  
 }
 
-void drawFrame()        //draws a no-color frame around the meggy screen
-{
-  for(int i = 0; i < 28; i++)
-  {
-    DrawPx(frame[i].x,frame[i].y,0);
-  }
-}
-  
-  
-  
-
+ 
 void drawPlayer()       //draws dot in middle of the screen (represents player)
 {
   DrawPx(xcoord,ycoord,10);
 }
 
-
+void drawEnemyA()
+{
+  if(Aycoord < 8 && Aycoord > -1 && Axcoord > -1 && Axcoord < 8)    //enemy will only be drawn on the screen if their coordinates are > -1 and < 8
+  {
+   DrawPx(Axcoord,Aycoord,1);
+  }
+}
 
 
 void drawWall()       //draws lines that make up maze walls
 {
   for(int i = 0; i < 115; i++)
   {
-    if(walls[i].y < 7 && walls[i].y > 0 && walls[i].x > 0 && walls[i].x < 7)   //walls will only be drawn on the screen if their coordinates are > 0 and < 7
+    if(walls[i].y < 8 && walls[i].y > -1 && walls[i].x > -1 && walls[i].x < 8)   //walls will only be drawn on the screen if their coordinates are > -1 and < 8
     {
       DrawPx(walls[i].x,walls[i].y,15);
     }
@@ -262,68 +263,79 @@ void drawWall()       //draws lines that make up maze walls
 
 
 
-void wallMovement()
+void movement()
 {
   CheckButtonsDown();      
   
- if (Button_Down)        //set variables for direction buttons
+ if (Button_Down)        //if the down button is pressed, the direction value becomes 270
  {
    dir = 270;
  }
- if (Button_Up)
+ if (Button_Up)    //if the up button is pressed, the direction value becomes 90
  {
    dir = 90;
  }
- if (Button_Right)
+ if (Button_Right)   //if the right button is pressed, the direction value becomes 0
  {
    dir = 0;
  }
- if (Button_Left)
+ if (Button_Left)    //if the left button is pressed, the direction value becomes 180
  {
    dir = 180;
  }
  
  
  
- if (Button_Down)       //if there is a red dot below the player, the walls won't move
+ if (Button_Down)        //if there is no wall below the player, the walls can move up
   {
     if (willCollide(270) == false)
     {
       for(int i = 0; i < 115; i++)
       {
         walls[i].y++;
+        Aycoord++;
       }
     }
   }
-  if (Button_Up)    //if there is a red dot above the player, the walls won't move
+  if (Button_Up)        //if there is no wall below the player, the walls can move down
   {
     if (willCollide(90) == false)
     {
       for(int i = 0; i < 115; i++)
       {
         walls[i].y--;
+        Aycoord--;
       }
     }
   }
-  if (Button_Left)    //if there is a red dot to the left of the player, the walls won't move
+  if (Button_Left)     //if there is no wall to the left of the player, the walls can move right
   {
     if (willCollide(180) == false)
     {
       for(int i = 0; i < 115; i++)
       {
         walls[i].x++;
+        Axcoord++;
       }
     }
   }
-  if (Button_Right)    //if there is a red dot to the right of the player, the walls won't move
+  if (Button_Right)    //if there is no wall to the right of the player, the walls can move left
   {
     if (willCollide(0) == false)
     {
       for(int i = 0; i < 115; i++)
       {
         walls[i].x--;
+        Axcoord--;
       }
     }
+  }
+  
+  if (Button_A)
+  {
+    Serial.println(Axcoord);
+    Serial.println(Aycoord);
+    Serial.println();
   }
   
 }
