@@ -13,35 +13,36 @@ int ycoord = 3;      //y coordinate for Player dot
 int dir = 1;        // direction value = 1 when game starts
 int Axcoord = 7;     //x coordinate for Enemy A 
 int Aycoord = 10;    //y coodrinate for Enemy A 
-int counter = 0;
+int counterA = 2;
 
-//boolean enemyMovement = true;
+boolean enemyAMovement = true;
+
 
 boolean willCollide(int dir) // Collision detection with walls
 { 
   if (dir == 270)
   {
-    if (ReadPx(xcoord,ycoord-1) == 0)    //if there is a wall below the player and the walls try to move up, the walls won't move
-      return false;
-     else return true;
+    if (ReadPx(xcoord,ycoord-1) == 15)    //if there is no wall bellow the player and the walls try to move up, the walls can move
+      return true;
+     else return false;
   }
   else if (dir == 90)
   {
-    if (ReadPx(xcoord,ycoord+1) == 0)    //if there is a wall above the player and the walls try to move down, the wall won't move
-      return false;
-     else return true;
+    if (ReadPx(xcoord,ycoord+1) == 15)    //if there is no wall above the player and the walls try to move down, the walls can move
+      return true;
+     else return false;
   }
   else if (dir == 0)
   {
-    if (ReadPx(xcoord+1,ycoord) == 0)    //if there is a wall to the right of the player and the wall tries to mvoe left, the wall won't move
-      return false;
-     else return true;
+    if (ReadPx(xcoord+1,ycoord) == 15)    //if there is no wall to the right of the player and the wall tries to move left, the walls can move
+      return true;
+     else return false;
   }
   else if (dir == 180)
   {
-    if (ReadPx(xcoord-1, ycoord) == 0)   //if there is a wall to the left of the player and the wall tries to move right, the wall won't move
-      return false;
-     else return true;
+    if (ReadPx(xcoord-1, ycoord) == 15)   //if there is no wall to the left of the player and the walls try to move right, the walls can move
+      return true;
+     else return false;
   }
 } 
 
@@ -219,15 +220,16 @@ Point walls[115] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s
   
 void loop()                     // run over and over again
 {
-
+ millis();
  drawPlayer();
  drawWall();
- movement();
  drawEnemyA();
+ movement();
+ enemyMovement();
  DisplaySlate();
  delay(125);
  ClearSlate();
- 
+ millis();
  
  
  
@@ -286,59 +288,83 @@ void movement()
  
  
  
- if (Button_Down)        //if there is no wall below the player, the walls can move up
+ if (Button_Down)        //if there is no wall below the player and the down button is pressed, the walls and enemies move up
   {
     if (willCollide(270) == false)
     {
       for(int i = 0; i < 115; i++)
       {
         walls[i].y++;
-        Aycoord++;
       }
+      Aycoord++;
     }
   }
-  if (Button_Up)        //if there is no wall below the player, the walls can move down
+  if (Button_Up)        //if there is no wall below the player and the up button is pressed, the walls and enemies move down
   {
     if (willCollide(90) == false)
     {
       for(int i = 0; i < 115; i++)
       {
         walls[i].y--;
-        Aycoord--;
       }
+      Aycoord--;
     }
   }
-  if (Button_Left)     //if there is no wall to the left of the player, the walls can move right
+  if (Button_Left)     //if there is no wall to the left of the player and the left button is pressed, the walls and enemies move right
   {
     if (willCollide(180) == false)
     {
       for(int i = 0; i < 115; i++)
       {
         walls[i].x++;
-        Axcoord++;
       }
+      Axcoord++;
     }
   }
-  if (Button_Right)    //if there is no wall to the right of the player, the walls can move left
+  if (Button_Right)    //if there is no wall to the right of the player and the right button is pressed, the walls and enemies move left
   {
     if (willCollide(0) == false)
     {
       for(int i = 0; i < 115; i++)
       {
         walls[i].x--;
-        Axcoord--;
       }
+      Axcoord--;
     }
   }
   
-  if (Button_A)
-  {
-    Serial.println(Axcoord);
-    Serial.println(Aycoord);
-    Serial.println();
-  }
   
 }
   
   
+void enemyMovement() // 
+{
+  if (millis() > 1000)
+  {
+    if (enemyAMovement == true)
+     {
+       Axcoord++;
+       counterA++;
+     }
+    if (enemyAMovement == false)
+     {
+       Axcoord--;
+       counterA--;
+      }
+    if (counterA == 4)
+    {
+      enemyAMovement = false;
+    }
+    if (counterA == 0)
+    {
+      enemyAMovement = true;
+    }
+    
+   }
+  
+ 
+ }
+
+
+
  
