@@ -11,9 +11,11 @@ void setup()                    // run once, when the sketch starts
 int xcoord = 3;      //x coordinate for Player dot
 int ycoord = 3;      //y coordinate for Player dot
 int dir = 1;        // direction value = 1 when game starts
-int Axcoord = 7;     //x coordinate for Enemy A 
-int Aycoord = 10;    //y coodrinate for Enemy A 
-int counterA = 2;
+int Axcoord = 7;     //x coordinate for enemy A 
+int Aycoord = 10;    //y coodrinate for enemy A 
+int counterA = 2;   //counter for enemy A
+int timerA = 500;   //this timer variable will be a 500 millisecond delay for enemy movement
+long int time = millis();  //the variable time equals the amount of milliseconds since the meggy is turned on
 
 boolean enemyAMovement = true;
 
@@ -52,43 +54,6 @@ struct Poin      //defined struct (frame array)
  int y;
 }; 
 
-Poin a1 = {0,0};         //defines points in array (frame around meggy screen)
-Poin a2 = {0,7};
-Poin a3 = {1,7};
-Poin a4 = {2,7};
-Poin a5 = {3,7};
-Poin a6 = {4,7};
-Poin a7 = {5,7};
-Poin a8 = {6,7};
-Poin a9 = {7,7};
-Poin a10 = {7,0};
-Poin a11 = {6,0};
-Poin a12 = {5,0};
-Poin a13 = {4,0};
-Poin a14 = {3,0};
-Poin a15 = {2,0};
-Poin a16 = {1,0};
-Poin a17 = {0,1};
-Poin a18 = {0,2};
-Poin a19 = {0,3};
-Poin a20 = {0,4};
-Poin a21 = {0,5};
-Poin a22 = {0,6};
-Poin a23 = {7,1};
-Poin a24 = {7,2};
-Poin a25 = {7,3};
-Poin a26 = {7,4};
-Poin a27 = {7,5};
-Poin a28 = {7,6};
-  
-Poin frame[28] = {a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28};
- 
- 
- 
- 
- 
- 
- 
 struct Point      //defined struct
 {
  int x;
@@ -210,8 +175,13 @@ Point s112 = {9,-1};
 Point s113 = {9,0};
 Point s114 = {9,1};
 Point s115 = {-3,-3};
+Point s116 = {9,11};
+Point s117 = {10,11};
+Point s118 = {11,11};
+Point s119 = {11,10};
+Point s120 = {11,9};
 
-Point walls[115] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s25,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,s51,s52,s53,s54,s55,s56,s57,s58,s59,s60,s61,s62,s63,s64,s65,s66,s67,s68,s69,s70,s71,s72,s73,s74,s75,s76,s77,s78,s79,s80,s81,s82,s83,s84,s85,s86,s87,s88,s89,s90,s91,s92,s93,s94,s95,s96,s97,s98,s99,s100,s101,s102,s103,s104,s105,s106,s107,s108,s109,s110,s111,s112,s113,s114,s115};
+Point walls[120] = {s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22,s23,s25,s25,s26,s27,s28,s29,s30,s31,s32,s33,s34,s35,s36,s37,s38,s39,s40,s41,s42,s43,s44,s45,s46,s47,s48,s49,s50,s51,s52,s53,s54,s55,s56,s57,s58,s59,s60,s61,s62,s63,s64,s65,s66,s67,s68,s69,s70,s71,s72,s73,s74,s75,s76,s77,s78,s79,s80,s81,s82,s83,s84,s85,s86,s87,s88,s89,s90,s91,s92,s93,s94,s95,s96,s97,s98,s99,s100,s101,s102,s103,s104,s105,s106,s107,s108,s109,s110,s111,s112,s113,s114,s115,s116,s117,s118,s119,s120};
   
   
 
@@ -225,7 +195,7 @@ void loop()                     // run over and over again
  drawWall();
  drawEnemyA();
  movement();
- enemyMovement();
+ if(millis() >= time) enemyMovement();  //this code (from forums) provides seperate delay for this method
  DisplaySlate();
  delay(125);
  ClearSlate();
@@ -236,6 +206,10 @@ void loop()                     // run over and over again
  
 }
 
+ 
+ 
+ 
+ 
  
 void drawPlayer()       //draws dot in middle of the screen (represents player)
 {
@@ -251,9 +225,13 @@ void drawEnemyA()
 }
 
 
+
+
+
+
 void drawWall()       //draws lines that make up maze walls
 {
-  for(int i = 0; i < 115; i++)
+  for(int i = 0; i < 120; i++)
   {
     if(walls[i].y < 8 && walls[i].y > -1 && walls[i].x > -1 && walls[i].x < 8)   //walls will only be drawn on the screen if their coordinates are > -1 and < 8
     {
@@ -287,12 +265,11 @@ void movement()
  }
  
  
- 
  if (Button_Down)        //if there is no wall below the player and the down button is pressed, the walls and enemies move up
   {
     if (willCollide(270) == false)
     {
-      for(int i = 0; i < 115; i++)
+      for(int i = 0; i < 120; i++)
       {
         walls[i].y++;
       }
@@ -303,7 +280,7 @@ void movement()
   {
     if (willCollide(90) == false)
     {
-      for(int i = 0; i < 115; i++)
+      for(int i = 0; i < 120; i++)
       {
         walls[i].y--;
       }
@@ -314,7 +291,7 @@ void movement()
   {
     if (willCollide(180) == false)
     {
-      for(int i = 0; i < 115; i++)
+      for(int i = 0; i < 120; i++)
       {
         walls[i].x++;
       }
@@ -325,45 +302,50 @@ void movement()
   {
     if (willCollide(0) == false)
     {
-      for(int i = 0; i < 115; i++)
+      for(int i = 0; i < 120; i++)
       {
         walls[i].x--;
       }
       Axcoord--;
     }
   }
-  
-  
+ 
 }
+  
+  
+  
+  
+  
   
   
 void enemyMovement() // 
 {
-  if (millis() > 1000)
+  time = millis() + timerA;     //this code (from forums) provides seperate delay time for this method
+  if (enemyAMovement == true)    //when the boolean statement is true, the enemy dot is moving to the right
   {
-    if (enemyAMovement == true)
-     {
-       Axcoord++;
-       counterA++;
-     }
-    if (enemyAMovement == false)
-     {
-       Axcoord--;
-       counterA--;
-      }
-    if (counterA == 4)
+    Axcoord++;
+    counterA++;
+   }
+   if (enemyAMovement == false)   //when the boolean statement is false, the enemy dot is moving to the left
+   {
+     Axcoord--;
+     counterA--;
+    }
+    if (counterA == 5)    //when the enemy dot moves right 5 spaces, the boolean statement turns false and the enemy starts moving left
     {
       enemyAMovement = false;
-    }
-    if (counterA == 0)
-    {
-      enemyAMovement = true;
-    }
+     }
+     if (counterA == 0)  //when the enemy dot moves left 5 spaces, the boolean statement turns true and the enemy starts moving right
+      {
+        enemyAMovement = true;
+       }
     
-   }
-  
+}
+    
+
+
+    
  
- }
 
 
 
