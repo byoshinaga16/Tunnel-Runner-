@@ -54,17 +54,42 @@ int marker5x = 3;   //x coordinate for marker5 is 3
 int marker5y = 9;  //y coordinate for marker5 is 15
 int marker6x = 5;   //x coordinate for marker6 is 5
 int marker6y = 9;  //y coordinate for marker6 is 15
+int padx = 3;  //x coordinate for teleport pad
+int pady = 17; //y coordinate for teleport pad
+int pad2x = 23; //x coordinate for teleport pad 2
+int pad2y = 3;  //y coordinate for teleport pad 2
+int pad3x = 3;  //x coordinate for teleport pad 3
+int pad3y = -14; //y coordinate for teleport pad 3
+int pad4x = -11; //x coordinate for teleport pad 4
+int pad4y = 3;  //y coordinate for teleport pad 4
+int rPadx = 2;  //x coordinate for return pad
+int rPady = 4;  //y coordinate for return pad
+int goldx = 3;  //x coordinates fo gold
+int goldy = 16;  //y coordinates for gold
+int gold2x = 22;  //x coordinates for gold 2
+int gold2y = 3;  //y coordinates for gold 2
+int gold3x = 3;  //x coordinates for gold 3
+int gold3y = -13;  //y coordinates for gold 3
+int gold4x = -10;  //x coordinates for gold 4
+int gold4y = 3;  //y coordinates for gold 4
+int goldCounter = 1; //counter for gold booleans 
 int timerA = 525;   //this timer variable will be a 500 millisecond delay for enemy movement
 long int time = millis();  //the variable time equals the amount of milliseconds since the meggy is turned on
 
-boolean aBoolean = true;
+boolean aBoolean = true;  //boolean statements for enemies to keep them running back and forth
 boolean bBoolean = true;
 boolean cBoolean = true;
 boolean dBoolean = true;
 boolean eBoolean = true;
-boolean fBoolean = false;
+boolean fBoolean = false; 
 boolean gBoolean = true;
 
+boolean gold = true;     //boolean statement to spawn gold randomly in four different coordinates
+boolean goldd = false;
+boolean golddd = false;
+boolean goldddd = false;
+
+boolean endGame = false;  //boolean statement for the end game scenerio
 
 boolean willCollide(int dir) // Collision detection with walls
 { 
@@ -99,7 +124,7 @@ boolean willCollide(int dir) // Collision detection with walls
   
 void loop()                     // run over and over again
 {
- millis();
+  
  drawPlayer();
  drawWall();
  drawEnemyA();
@@ -114,30 +139,24 @@ void loop()                     // run over and over again
  drawEnemyJ();
  drawEnemyK();
  drawEnemyL();
+ drawPad();
+ drawPad2();
+ drawPad3();
+ drawPad4();
+ drawRPad();
+ spawnGold();
  movement();
+ teleport();
+ enemyCollision();
  if(millis() >= time) enemyMovement(); //this code (from forums) provides seperate delay for this method
  DisplaySlate();
  delay(125);
  ClearSlate();
- millis();
- 
- 
- 
+
  
 }
 
- 
- 
-
-
   
-  
-
-
-
-    
-
-
 
     
  

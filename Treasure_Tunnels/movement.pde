@@ -48,7 +48,15 @@ void movement()
       jycoord++;
       kycoord++;
       lycoord++;
-      
+      pady++;
+      pad2y++;
+      pad3y++;
+      pad4y++;
+      rPady++;
+      goldy++;
+      gold2y++;
+      gold3y++;
+      gold4y++;
     }
   }
   if (Button_Up)        //if there is no wall below the player and the up button is pressed, everything but the player moves down
@@ -77,6 +85,16 @@ void movement()
       jycoord--;
       kycoord--;
       lycoord--;
+      pady--;
+      pad2y--;
+      pad3y--;
+      pad4y--;
+      rPady--;
+      goldy--;
+      gold2y--;
+      gold3y--;
+      gold4y--;
+     
     }
   }
   if (Button_Left)     //if there is no wall to the left of the player and the left button is pressed, everything but the player moves right
@@ -105,6 +123,16 @@ void movement()
       jxcoord++;
       kxcoord++;
       lxcoord++;
+      padx++;
+      pad2x++;
+      pad3x++;
+      pad4x++;
+      rPadx++;
+      goldx++;
+      gold2x++;
+      gold3x++;
+      gold4x++;
+      
     }
   }
   if (Button_Right)    //if there is no wall to the right of the player and the right button is pressed, everything but the player moves left
@@ -133,6 +161,16 @@ void movement()
       jxcoord--;
       kxcoord--;
       lxcoord--;
+      padx--;
+      pad2x--;
+      pad3x--;
+      pad4x--;
+      rPadx--;
+      goldx--;
+      gold2x--;
+      gold3x--;
+      gold4x--;
+      
     }
   }
  
