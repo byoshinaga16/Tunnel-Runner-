@@ -73,6 +73,7 @@ int gold3y = -13;  //y coordinates for gold 3
 int gold4x = -10;  //x coordinates for gold 4
 int gold4y = 3;  //y coordinates for gold 4
 int goldCounter = 1; //counter for gold booleans 
+int ledCounter = 0;  //counter for LED scoring
 int timerA = 525;   //this timer variable will be a 500 millisecond delay for enemy movement
 long int time = millis();  //the variable time equals the amount of milliseconds since the meggy is turned on
 
@@ -124,7 +125,6 @@ boolean willCollide(int dir) // Collision detection with walls
   
 void loop()                     // run over and over again
 {
-  
  drawPlayer();
  drawWall();
  drawEnemyA();
@@ -148,6 +148,7 @@ void loop()                     // run over and over again
  movement();
  teleport();
  enemyCollision();
+ ledScoring();
  if(millis() >= time) enemyMovement(); //this code (from forums) provides seperate delay for this method
  DisplaySlate();
  delay(125);

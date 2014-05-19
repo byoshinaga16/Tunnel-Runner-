@@ -530,6 +530,7 @@ void spawnGold()  //code for gold dots (objectives)
       Tone_Start(5000,50);     //sound
       goldCounter++;           //gold counter increases by 1
       timerA = timerA-40;      //enemies increase speed
+      ledCounter++;            //one more led lights up 
      }
   }
   if (goldd == true)    //if the gold dot is east
@@ -570,6 +571,7 @@ void spawnGold()  //code for gold dots (objectives)
       Tone_Start(5000,50);     //sound
       goldCounter++;           //gold counter increases by 1
       timerA = timerA-40;      //enemies increase speed
+      ledCounter++;            //one more led lights up 
       }
   }
   if (golddd == true)   //if the gold dot is south
@@ -610,6 +612,7 @@ void spawnGold()  //code for gold dots (objectives)
       Tone_Start(5000,50);    //sound
       goldCounter++;          //gold counter increases by 1
       timerA = timerA-40;     //enemies speed increases
+      ledCounter++;            //one more led lights up 
     }
   }
   if (goldddd == true)     //if the gold dot is west
@@ -650,6 +653,7 @@ void spawnGold()  //code for gold dots (objectives)
       Tone_Start(5000,50);          //sound
       goldCounter = goldCounter-3;  //gold counter decreases by 3 and goes back to 1
       timerA = timerA-40;           //enemies increase speed
+      ledCounter++;            //one more led lights up 
       }
    }
   
